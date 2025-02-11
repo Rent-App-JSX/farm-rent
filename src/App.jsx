@@ -5,7 +5,7 @@ import Property from './Pages/property/Property'
 import About from './Pages/About/About'
 import Contact from './Pages/Contact/Contact'
 import Login from './Pages/Login/Login'
-
+import Footer from './Components/footer';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
