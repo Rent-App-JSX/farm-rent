@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import PropertyCarousel from "../../Components/PropertySlider";
 import {
   Search,
   Star,
@@ -9,6 +8,7 @@ import {
   CreditCard,
   Bell,
 } from "lucide-react";
+import{ useState } from "react";
 
 const FeatureCard = ({ icon: Icon, title }) => (
   <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center gap-4 hover:shadow-lg transition-shadow">
@@ -79,72 +79,6 @@ function Home() {
         "Browse stunning farms & chalets, book with ease, and enjoy a stress-free vacation.",
     },
   ];
-
-  // const [properties, setProperties] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProperties = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://your-firebase-url.com/properties.json"
-  //       );
-  //       console.log(response.data); // تحقق من البيانات في الـ console
-  //       const filteredProperties = response.data.properties.filter(
-  //         (property) => !property.soft_delete
-  //       );
-  //       setProperties(filteredProperties);
-  //     } catch (error) {
-  //       console.error("Error fetching properties:", error);
-  //     }
-  //   };
-
-  //   fetchProperties();
-  // }, []);
-
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://rent-app-d50fb-default-rtdb.firebaseio.com/properties.json"
-        );
-        const properties = response.data
-          ? Object.keys(response.data).map((key) => ({
-              id: key,
-              ...response.data[key],
-            }))
-          : [];
-
-        setData(properties);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-      </div>
-    );
-
-  if (error)
-    return <div className="text-red-500 text-center mt-5">Error: {error}</div>;
-
-  const properties = data.filter(
-    (property) => !property.soft_delete && property.seasonal_offers
-  );
-  if (properties.length === 0) {
-    return <p>Loading...</p>; // يمكن إضافة رسالة إذا كانت البيانات لا تزال قيد التحميل
-  }
 
   return (
     <>
@@ -240,10 +174,10 @@ function Home() {
 
       {/* Features */}
       <div className="max-w-6xl mt-20 mx-auto p-6">
-        <h2 className="text-3xl text-center text-gray-700 mb-8">
+        <h2 className="text-4xl text-emerald-600 text-center mb-8">
           unique features
         </h2>
-        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <FeatureCard
               key={index}
@@ -254,56 +188,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-around items-center my-20 mx-5  gap-4">
-        {properties.map((property) => (
-          <div
-            key={property.name}
-            className="rounded overflow-hidden shadow-lg p-4"
-          >
-            <img
-              className="w-full h-48 object-cover"
-              src={property.images[0]}
-              alt={property.name}
-            />
-            <div className="py-4">
-              <h2 className="font-bold text-xl">{property.name}</h2>
-              <p className="text-gray-700 text-base">
-                {property.short_description}
-              </p>
-              <p className="text-green-500 text-lg">
-                ${property.price_12_hours} / 12 hours
-              </p>
-              <p className="text-yellow-500">{property.rating} ★</p>
-              <p className="text-gray-600">
-                🔥{property.seasonal_offers[1].offer}
-              </p>
-              <button
-                className=" hover:cursor-pointer  bg-white shadow-lg border mt-2 border-gray-50 text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
-                type="button"
-              >
-                <div className="bg-[#508D4E] rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 1024 1024"
-                    height="25px"
-                    width="25px"
-                  >
-                    <path
-                      d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-                      fill="#fff"
-                    />
-                    <path
-                      d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-                      fill="#fff"
-                    />
-                  </svg>
-                </div>
-                <p className="translate-x-2">Details</p>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <PropertyCarousel />
 
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex flex-col md:flex-row gap-8 bg-white rounded-lg overflow-hidden shadow-lg">
