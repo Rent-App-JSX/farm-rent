@@ -15,7 +15,7 @@ function PropertyCarousel() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://rent-app-d50fb-default-rtdb.firebaseio.com/properties.json"
+          "https://test-2810a-default-rtdb.firebaseio.com/properties.json"
         );
         const properties = response.data
           ? Object.keys(response.data).map((key) => ({
@@ -38,7 +38,7 @@ function PropertyCarousel() {
   // وضع ال id في لينك الصفحه عند الضغط على زر ال details
   const handlePropertyClick = (propertyId) => {
     // Update URL without page reload
-    window.history.pushState({}, "", `/property/${propertyId}`);
+    window.history.pushState({}, "", `/properties/${propertyId}`);
     // You can also use this if you want the page to reload:
     // window.location.href = `/property/${propertyId}`;
   };
@@ -131,7 +131,7 @@ function PropertyCarousel() {
       <div className="flex flex-col items-center justify-center my-20 ">
         <div className="my-10 w-[80%] mx-5">
           <p className="text-4xl text-emerald-500 flex justify-center items-center">
-            seasonal offers
+            Seasonal Offers
           </p>
           <Slider {...settings}>
             {properties.map((property) => (
@@ -155,7 +155,7 @@ function PropertyCarousel() {
                       🔥{property.seasonal_offers[1].offer}
                     </p>
                     <Link
-                      to="/details"
+                      to={`/properties/${property.id}`}
                       className="flex items-center space-x-2 logo-swing"
                     >
                       <button

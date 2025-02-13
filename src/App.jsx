@@ -1,24 +1,31 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/navbar';
-import Home from './Pages/Home/Home';
-import Property from './Pages/property/Property'
-import About from './Pages/About/About'
-import Contact from './Pages/Contact/Contact'
-import Login from './Pages/Login/Login'
 import Footer from './Components/footer';
+import Home from './Pages/Home/Home';
+import Property from './Pages/property/Property';
+import About from './Pages/About/About';
+import Contact from './Pages/Contact/Contact';
+import Login from './Pages/Login/Login';
+import PropertyDetails from './Pages/Details/Details';
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/property" element={<Property />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-      <Footer />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/property" element={<Property />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/properties/:id" element={<PropertyDetails />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
