@@ -1,38 +1,37 @@
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './Components/navbar';
-import Footer from './Components/footer';
-import Home from './Pages/Home/Home';
-import Property from './Pages/property/Property'
-import About from './Pages/About/About'
-import Contact from './Pages/Contact/Contact'
-import Login from './Pages/Login/Login'
-import Details from './Pages/Details/Details'
-import Footer from './Components/footer';
+import Footer from './Components/Footer';
 import Home from './Pages/Home/Home';
 import Property from './Pages/property/Property';
 import About from './Pages/About/About';
 import Contact from './Pages/Contact/Contact';
-import Login from './Pages/Login/Login';
+import Register from './Pages/Register/Register';
 import PropertyDetails from './Pages/Details/Details';
+
+function Layout() {
+  const location = useLocation();
+  const hideNavbarPages = ["/register"]; // إخفاء Navbar و Footer في صفحة Register
+
+  return (
+    <>
+      {!hideNavbarPages.includes(location.pathname) && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/property" element={<Property />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/properties/:id" element={<PropertyDetails />} />
+      </Routes>
+      {!hideNavbarPages.includes(location.pathname) && <Footer />}
+    </>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/property" element={<Property />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/properties/:id" element={<PropertyDetails />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <Layout />
     </Router>
   );
 }

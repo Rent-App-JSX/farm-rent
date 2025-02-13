@@ -286,7 +286,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+import HeroSection from "../../Components/HeroSection";
 
 function Property() {
   const [data, setData] = useState([]);
@@ -296,12 +296,13 @@ function Property() {
   const [ratingFilter, setRatingFilter] = useState(0);
   const [roomsFilter, setRoomsFilter] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://test-2810a-default-rtdb.firebaseio.com/properties.json"
+          "https://rent-app-d50fb-default-rtdb.firebaseio.com/properties.json"
         );
         const properties = response.data
           ? Object.keys(response.data).map((key) => ({
@@ -346,13 +347,10 @@ function Property() {
 
   return (
     <>
-      <div>
-        <img
-          className="min-w-full h-100 bg-no-repeat bg-center bg-cover"
-          src="https://img.freepik.com/premium-photo/swimming-pool-with-lounge-chairs-palm-trees_662214-344213.jpg?w=1380"
-          alt="heroSection"
-        />
-      </div>
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Property Cards */}
       <div className="flex flex-col items-center justify-center my-20">
         <div className="flex flex-wrap w-full justify-center items-center space-x-4 gap-3">
           <select
@@ -400,9 +398,13 @@ function Property() {
             <div key={property.id} className="p-4">
               <div className="rounded-lg overflow-hidden w-[370px] flex flex-col justify-between min-h-120 shadow-lg p-4 bg-white hover:shadow-2xl transition-all duration-300 ease-in-out">
                 <img
-                  className="w-full h-48 object-cover rounded-lg"
-                  src={property.images[0]}
-                  alt={property.name}
+                  className="w-full h-48 object-cover"
+                  src={
+                    property.images && property.images[0]
+                      ? property.images[1]
+                      : "https://via.placeholder.com/400"
+                  }
+                  alt={property.name || "Property Image"}
                 />
                 <div className="py-4">
                   <h2 className="font-bold text-xl text-gray-800">
@@ -416,7 +418,7 @@ function Property() {
                   </p>
                   <p className="text-yellow-500">{property.rating} ★</p>
                   <p className="text-[#ff4d00]">
-                    🔥 {property.seasonal_offers[1].offer}
+                    🔥 {property.seasonal_offers[0]}
                   </p>
                   <Link
                     to={`/properties/${property.id}`}

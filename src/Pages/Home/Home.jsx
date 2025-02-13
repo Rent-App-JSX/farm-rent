@@ -8,7 +8,7 @@ import {
   CreditCard,
   Bell,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Chatbot from "../../Components/Chatbot";
 
@@ -61,7 +61,7 @@ function Home() {
     </div>
   );
 
-  // بيانات لل hero section
+  
   const carouselItems = [
     {
       image:
@@ -86,31 +86,35 @@ function Home() {
     },
   ];
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev === carouselItems.length - 1 ? 0 : prev + 1));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [carouselItems.length]);
+
   return (
     <>
       {/* Hero Section */}
       <div className="relative w-full">
-        <div className="relative h-[500px] overflow-hidden">
-          {carouselItems.map((item, index) => (
-            <div
-              key={index}
-              className={`absolute w-full h-full transition-opacity duration-500 ${
-                index === activeSlide ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 p-8 text-white bg-[#00000030]">
-                <h5 className="text-2xl font-bold">{item.title}</h5>
-                <p className="text-lg">{item.description}</p>
-                <Link
+      <div className="relative h-[500px] overflow-hidden">
+        {carouselItems.map((item, index) => (
+          <div
+            key={index}
+            className={`absolute w-full h-full transition-opacity duration-500 ${
+              index === activeSlide ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+            <div className="flex flex-col justify-center items-center absolute bottom-0 left-0 right-0 p-8 text-white bg-[#00000030]">
+              <h5 className="text-2xl font-bold">{item.title}</h5>
+              <p className="text-lg">{item.description}</p>
+              <Link
                   to="/property"
                   className="flex items-center space-x-2 logo-swing"
                 >
-                  <button className="bg-[#a4cfa7] px-6 py-3 hover:cursor-pointer text-white relative overflow-hidden z-30 group hover:bg-[#5dab79] transition-all duration-500 rounded tracking-wider font-semibold">
+                  <button className="bg-[#a4cfa7] px-6 py-3 hover:cursor-pointer text-white relative overflow-hidden z-30 group hover:bg-[#5dab79] transition-all duration-500 rounded mt-4 tracking-wider font-semibold">
                     Git Started
                     <svg
                       className="absolute inset-0 left-0 top-0 fill-[#a9cfa7] -z-30 opacity-0 group-hover:opacity-100 group-hover:duration-300 group-hover:transition-all group-active:fill-[#407b44]"
@@ -157,31 +161,27 @@ function Home() {
                     </svg>
                   </button>
                 </Link>
-              </div>
             </div>
-          ))}
-        </div>
-        <button
-          onClick={() =>
-            setActiveSlide((prev) =>
-              prev === 0 ? carouselItems.length - 1 : prev - 1
-            )
-          }
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#eeeeee3b] text-white p-2 rounded-full"
-        >
-          ←
-        </button>
-        <button
-          onClick={() =>
-            setActiveSlide((prev) =>
-              prev === carouselItems.length - 1 ? 0 : prev + 1
-            )
-          }
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#eeeeee3b] text-white p-2 rounded-full"
-        >
-          →
-        </button>
+          </div>
+        ))}
       </div>
+      <button
+        onClick={() =>
+          setActiveSlide((prev) => (prev === 0 ? carouselItems.length - 1 : prev - 1))
+        }
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#eeeeee3b] text-white p-2 rounded-full"
+      >
+        ←
+      </button>
+      <button
+        onClick={() =>
+          setActiveSlide((prev) => (prev === carouselItems.length - 1 ? 0 : prev + 1))
+        }
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#eeeeee3b] text-white p-2 rounded-full"
+      >
+        →
+      </button>
+    </div>
 
       {/* Features */}
       <div className="max-w-6xl mt-20 mx-auto p-6">
