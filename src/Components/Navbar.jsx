@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // إضافة useNavigate
+import { useSelector, useDispatch } from "react-redux";  // إضافة useDispatch
+import { FaUser, FaSignOutAlt } from "react-icons/fa";  // إضافة أيقونة الخروج
+
+import { logout } from "../Redux/authSlice"; // استيراد الدالة logout من الـ Redux
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // لاستخدام التوجيه
+  const dispatch = useDispatch(); // استخدام الديسباتش
+  const { user } = useSelector((state) => state.auth);  // استخدام useSelector للحصول على بيانات المستخدم
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -18,6 +25,12 @@ const Navbar = () => {
 
   const isActive = (path) => {
     return location.pathname === path ? 'bg-[#a4cfa7]' : '';
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());  // مسح بيانات المستخدم من الـ Redux
+    localStorage.removeItem("user");  // مسح بيانات المستخدم من localStorage
+    navigate("/");  // إعادة توجيه المستخدم إلى صفحة الهوم
   };
 
   return (
@@ -55,13 +68,30 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to="/login"
-              className="bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 ml-4 cursor-pointer"
-            >
-              Login
-            </Link>
-          </div>
+
+            {/* عرض اسم المستخدم أو أيقونة الخروج */}
+            {user ? (
+  <div className="text-[#508D4E] flex items-center space-x-2">
+    <FaUser /> {/* أيقونة المستخدم */}
+    <span>{user.firstname} {user.lastname}</span> {/* عرض اسم المستخدم */}
+    <button 
+      onClick={handleLogout} 
+      className="ml-4 text-[#508D4E] hover:text-[#1A5319] flex items-center space-x-2 cursor-pointer"
+    >
+      <FaSignOutAlt /> {/* أيقونة الخروج */}
+      <span>Logout</span>
+    </button>
+  </div>
+) : (
+  <Link
+    to="/register"
+    className="bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 ml-4 cursor-pointer"
+  >
+    Login
+  </Link>
+)}
+
+     </div>
 
           {/* Mobile Menu Button */}
           <button onClick={toggleMenu} className="md:hidden text-gray-700 focus:outline-none">
@@ -85,13 +115,19 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="px-4 py-2">
-              <Link
-                to="/login"
-                className="block w-full bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 cursor-pointer text-center"
-                onClick={() => setMenuOpen(false)}
-              >
-                Login
-              </Link>
+              {user ? (
+                <div className="block w-full bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 cursor-pointer text-center">
+                  {user.username}
+                </div>
+              ) : (
+                <Link
+                  to="/register"
+                  className="block w-full bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 cursor-pointer text-center"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         )}
