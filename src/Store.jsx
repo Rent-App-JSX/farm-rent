@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cartReducer from "./Redux/propertySlice";
+import wishlistReducer from "./Redux/wishlistSlice"; // Reducer الخاص بالـ Wishlist
 
 const store = configureStore({
   reducer: {
-    cart: cartReducer,
+    wishlist: wishlistReducer, // Reducer الخاص بالـ Wishlist
   },
 });
 
