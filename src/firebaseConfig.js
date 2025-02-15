@@ -12,7 +12,10 @@ import {
   getDatabase, 
   ref, 
   set, 
-  get 
+  get ,
+  update,
+  onValue,
+  remove
 } from "firebase/database";
 // Your Firebase configuration
 const firebaseConfig = {
@@ -43,5 +46,8 @@ export {
   signInWithEmailAndPassword, 
   ref, 
   set, 
-  get 
+  get,
+  remove,
+  update,
+  onValue
 };

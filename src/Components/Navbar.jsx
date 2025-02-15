@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // إضافة useNavigate
 import { useSelector, useDispatch } from "react-redux";  // إضافة useDispatch
-import { FaUser, FaSignOutAlt } from "react-icons/fa";  // إضافة أيقونة الخروج
+import { FaUser, FaSignOutAlt, FaHeart } from "react-icons/fa";  // إضافة أيقونة الخروج
 
 import { logout } from "../Redux/authSlice"; // استيراد الدالة logout من الـ Redux
 
@@ -71,27 +71,45 @@ const Navbar = () => {
 
             {/* عرض اسم المستخدم أو أيقونة الخروج */}
             {user ? (
-  <div className="text-[#508D4E] flex items-center space-x-2">
-    <FaUser /> {/* أيقونة المستخدم */}
-    <span>{user.firstname} {user.lastname}</span> {/* عرض اسم المستخدم */}
-    <button 
-      onClick={handleLogout} 
-      className="ml-4 text-[#508D4E] hover:text-[#1A5319] flex items-center space-x-2 cursor-pointer"
-    >
-      <FaSignOutAlt /> {/* أيقونة الخروج */}
-      <span>Logout</span>
-    </button>
-  </div>
-) : (
-  <Link
-    to="/register"
-    className="bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 ml-4 cursor-pointer"
-  >
-    Login
-  </Link>
-)}
+              <div className="text-[#508D4E] flex items-center space-x-2">
+                <button className="ml-4 text-[#508D4E] hover:text-[#1A5319] flex items-center space-x-2 duration-300 cursor-pointer">
+                <FaUser
+                  onClick={() => navigate("/profile")}
+                />{/* أيقونة المستخدم */}
+                <span>{user.firstname} {user.lastname}</span>{/* عرض اسم المستخدم */}
+                </button>
+                <button
+            className="ml-3 text-[#508D4E] hover:text-[#1A5319] flex items-center duration-300 cursor-pointer"
+            onClick={() => navigate("/Landlords")}
+          >
+            Add Property  {/* أيقونة المفضلة */}
+          </button> 
 
-     </div>
+                {/* أيقونة الـ Wishlist */}
+          <button
+            className="ml-3 text-[#508D4E] hover:text-[#1A5319] flex items-center duration-300 cursor-pointer"
+            onClick={() => navigate("/wishlist")}
+          >
+            <FaHeart className="text-xl" /> {/* أيقونة المفضلة */}
+          </button> 
+                <button
+                  onClick={handleLogout}
+                  className="ml-5 text-[#508D4E] hover:text-[#1A5319] flex items-center space-x-2 duration-300 cursor-pointer"
+                >
+                  <FaSignOutAlt /> {/* أيقونة الخروج */}
+                  <span>Log out</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/register"
+                className="bg-[#508D4E] hover:bg-[#1A5319] text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 ml-4 cursor-pointer"
+              >
+                Login
+              </Link>
+            )}
+
+          </div>
 
           {/* Mobile Menu Button */}
           <button onClick={toggleMenu} className="md:hidden text-gray-700 focus:outline-none">
