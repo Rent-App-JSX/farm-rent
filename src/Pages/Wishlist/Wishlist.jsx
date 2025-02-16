@@ -28,10 +28,10 @@ const WishlistPage = ({ hideTitle }) => {
     setImageUrls(images);
   }, [wishlist]);
 
-  // 🔹 إضافة مزرعة إلى المفضلة
-  const handleAddToWishlist = (farm) => {
-    dispatch(addToWishlist(farm));
-  };
+  // // // 🔹 إضافة مزرعة إلى المفضلة
+  // const handleAddToWishlist = (farm) => {
+  //   dispatch(addToWishlist(farm));
+  // };
 
   // 🔹 إزالة مزرعة من المفضلة
   const handleRemoveFromWishlist = (id) => {
@@ -101,7 +101,7 @@ const WishlistPage = ({ hideTitle }) => {
                     <h2 className="text-2xl font-semibold">{farm.name}</h2>
                   </Link>
                   <p className="text-gray-600 mb-4">
-                    {farm.shortDescription || "No description available."}
+                    {farm.short_description || "No description available."}
                   </p>
                   <div className="mb-6 space-y-2 text-gray-700">
                     <p>
